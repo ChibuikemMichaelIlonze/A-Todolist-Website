@@ -39,6 +39,13 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
+var today = new Date();
+var options = {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+};
+var day = today.toLocaleDateString("en-US", options);
 app.get("/", function (req, res) {
   Item.find({})
     .then(function (foundItems) {
@@ -52,7 +59,7 @@ app.get("/", function (req, res) {
             console.log(err);
           });
         res.redirect("/");
-      } else res.render("list", { listTitle: "Today", newListItems: foundItems });
+      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems });
     })
     .catch(function (err) {
       console.log(err);
@@ -75,6 +82,7 @@ app.get("/:customListName", function (req, res) {
       } else {
         res.render("list", {
           listTitle: foundList.name,
+          listTitleday: day,
           newListItems: foundList.items,
         });
       }
@@ -140,7 +148,7 @@ app.post("/", function (req, res) {
   const item = new Item({
     name: itemName,
   });
-  if (listName === "Today") {
+  if (listName === day) {
     item.save();
     res.redirect("/");
   } else {
