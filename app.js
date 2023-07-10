@@ -11,9 +11,12 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-mongoose.connect("mongodb://127.0.0.1:27017/todolist", {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://chibuikemilonze:KSHd2liJJkSJ1F4k@web.u5tyci7.mongodb.net/todolist",
+  {
+    useNewUrlParser: true,
+  }
+);
 const itemsSchema = {
   name: String,
 };
