@@ -11,12 +11,9 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-mongoose.connect(
-  "mongodb+srv://chibuikemilonze:KSHd2liJJkSJ1F4k@web.u5tyci7.mongodb.net/?retryWrites=true&w=majority/todolist",
-  {
-    useNewUrlParser: true,
-  }
-);
+mongoose.connect("mongodb+srv://chibuikemilonze:KSHd2liJJkSJ1F4k@web.u5tyci7.mongodb.net/?retryWrites=true&w=majority/todolist", {
+  useNewUrlParser: true,
+});
 const itemsSchema = {
   name: String,
 };
@@ -38,13 +35,6 @@ const listSchema = {
 };
 
 const List = mongoose.model("List", listSchema);
-var today = new Date();
-var options = {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-};
-var day = today.toLocaleDateString("en-US", options);
 
 app.get("/", function (req, res) {
   Item.find({})
@@ -59,7 +49,7 @@ app.get("/", function (req, res) {
             console.log(err);
           });
         res.redirect("/");
-      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems });
+      } else res.render("list", { listTitle: "Today", newListItems: foundItems });
     })
     .catch(function (err) {
       console.log(err);
@@ -82,7 +72,6 @@ app.get("/:customListName", function (req, res) {
       } else {
         res.render("list", {
           listTitle: foundList.name,
-          listTitleday: day,
           newListItems: foundList.items,
         });
       }
@@ -179,7 +168,7 @@ app.post("/delete", async function (req, res) {
   }
 });
 app.get("/work", function (req, res) {
-  res.render("list", { listTitleday: "Work List", newListItems: workItems });
+  res.render("list", { listTitle: "Work List", newListItems: workItems });
 });
 app.get("/about", function (req, res) {
   res.render("about");
