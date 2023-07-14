@@ -17,6 +17,9 @@ mongoose.connect(
     useNewUrlParser: true,
   }
 );
+// mongoose.connect("mongodb://127.0.0.1:27017/todolist", {
+//   useNewUrlParser: true,
+// });
 const itemsSchema = {
   name: String,
   time: {
@@ -51,6 +54,7 @@ var options = {
 };
 var day = today.toLocaleDateString("en-US", options);
 app.get("/", function (req, res) {
+ 
   Item.find({})
     .then(function (foundItems) {
       if (foundItems.length === 0) {
@@ -63,7 +67,7 @@ app.get("/", function (req, res) {
             console.log(err);
           });
         res.redirect("/");
-      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems, time: item.time });
+      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems, time: Item.time });
     })
     .catch(function (err) {
       console.log(err);
@@ -88,6 +92,7 @@ app.get("/:customListName", function (req, res) {
           listTitle: foundList.name,
           listTitleday: day,
           newListItems: foundList.items,
+          time: Item.time
         });
       }
     })

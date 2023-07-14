@@ -1,24 +1,41 @@
 <%- include("header") -%>
-    <div class="box" id="heading">
-      <h1><%= listTitle %> <br><%= listTitleday %></h1>
-    </div>
+<div class="box" id="heading">
+  <h1><%= listTitle %> <br /><%= listTitleday %></h1>
+</div>
 <div class="box">
   <%newListItems.forEach(function(item){%>
-    <form action="/delete" method="post">
-    <div class="item">
-      <input type="checkbox" name="checkbox" value="<%= item._id%>" onclick="this.form.submit()">
-      <p><%= item.name %> <%= item.time %></p>
-  
-     </div>
-     <input type="hidden" name="listName" value="<%= listTitle %>">
-    </form>
-     <%})%>
+  <form action="/delete" method="post">
+    <div class="item top">
+      <div class="list">
 
+        <input
+          type="checkbox"
+          name="checkbox"
+          value="<%= item._id%>"
+          onclick="this.form.submit()"
+        />
+        <p><%= item.name %></p>
+      </div>
+      <p class="time">
+        <%= item.time.toLocaleString("en-UK", { year: "numeric", month:
+        "numeric", day: "numeric", hour: "2-digit", hour12: true, minute:
+        "2-digit", }) %>
+      </p>
+    </div>
+    <input type="hidden" name="listName" value="<%= listTitle %>" />
+  </form>
+  <%})%>
 
- 
-      <form class="item" action="/" method="post">
-        <input type="text" name="newItem" placeholder="New Item" autocomplete="off"/>
-        <button type="submit" name="list" value="<%= listTitle %>"><span>+</span></button>
-      </form>
+  <form class="item " action="/" method="post">
+    <input
+      type="text"
+      name="newItem"
+      placeholder="New Item"
+      autocomplete="off"
+    />
+    <button type="submit" name="list" value="<%= listTitle %>">
+      <span>+</span>
+    </button>
+  </form>
 </div>
 <%- include("footer") -%>
