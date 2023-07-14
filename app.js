@@ -19,6 +19,10 @@ mongoose.connect(
 );
 const itemsSchema = {
   name: String,
+  time: {
+    type: Date,
+    default: Date.now,
+  },
 };
 
 const Item = mongoose.model("Item", itemsSchema);
@@ -59,7 +63,7 @@ app.get("/", function (req, res) {
             console.log(err);
           });
         res.redirect("/");
-      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems });
+      } else res.render("list", { listTitle: "Today", listTitleday: day, newListItems: foundItems, time: item.time });
     })
     .catch(function (err) {
       console.log(err);
