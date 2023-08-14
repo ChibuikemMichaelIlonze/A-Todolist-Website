@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const ejs = require("ejs");
 const _ = require("lodash");
 // const date = require(__dirname + "/date.js");
 // const items = ["Buy Food", "Cook Food", "Eat Food"];
@@ -54,7 +55,6 @@ var options = {
 };
 var day = today.toLocaleDateString("en-US", options);
 app.get("/", function (req, res) {
- 
   Item.find({})
     .then(function (foundItems) {
       if (foundItems.length === 0) {
@@ -92,7 +92,7 @@ app.get("/:customListName", function (req, res) {
           listTitle: foundList.name,
           listTitleday: day,
           newListItems: foundList.items,
-          time: Item.time
+          time: Item.time,
         });
       }
     })
